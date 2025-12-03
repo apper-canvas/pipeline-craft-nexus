@@ -96,13 +96,28 @@ export const contactService = {
         }]
       }
 
-      const response = await apperClient.createRecord('contact_c', params)
+const response = await apperClient.createRecord('contact_c', params)
       
       if (!response.success) {
+        console.error(response.message)
         throw new Error(response.message)
       }
 
-      return response.records[0]
+      if (response.results) {
+        const successful = response.results.filter(r => r.success)
+        const failed = response.results.filter(r => !r.success)
+        
+        if (failed.length > 0) {
+          console.error(`Failed to create ${failed.length} contact records:`, failed)
+          failed.forEach(record => {
+            if (record.message) throw new Error(record.message)
+          })
+        }
+        
+        return successful[0]?.data
+      }
+
+      throw new Error("Unexpected response structure")
     } catch (error) {
       console.error("Error creating contact:", error?.response?.data?.message || error)
       throw error
@@ -127,13 +142,28 @@ export const contactService = {
         }]
       }
 
-      const response = await apperClient.updateRecord('contact_c', params)
+const response = await apperClient.updateRecord('contact_c', params)
       
       if (!response.success) {
+        console.error(response.message)
         throw new Error(response.message)
       }
 
-      return response.records[0]
+      if (response.results) {
+        const successful = response.results.filter(r => r.success)
+        const failed = response.results.filter(r => !r.success)
+        
+        if (failed.length > 0) {
+          console.error(`Failed to update ${failed.length} contact records:`, failed)
+          failed.forEach(record => {
+            if (record.message) throw new Error(record.message)
+          })
+        }
+        
+        return successful[0]?.data
+      }
+
+      throw new Error("Unexpected response structure")
     } catch (error) {
       console.error("Error updating contact:", error?.response?.data?.message || error)
       throw error
