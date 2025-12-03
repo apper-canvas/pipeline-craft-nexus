@@ -1,23 +1,26 @@
-import { useState, useEffect } from "react"
-import { useLocation } from "react-router-dom"
-import Header from "@/components/organisms/Header"
-import ContactDetail from "@/components/organisms/ContactDetail"
-import ContactListItem from "@/components/molecules/ContactListItem"
-import Loading from "@/components/ui/Loading"
-import ErrorView from "@/components/ui/ErrorView"
-import Empty from "@/components/ui/Empty"
-import ApperIcon from "@/components/ApperIcon"
-import { contactService } from "@/services/api/contactService"
-import { dealService } from "@/services/api/dealService"
-import { activityService } from "@/services/api/activityService"
-import { toast } from "react-toastify"
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { contactService } from "@/services/api/contactService";
+import { dealService } from "@/services/api/dealService";
+import { activityService } from "@/services/api/activityService";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import Loading from "@/components/ui/Loading";
+import ErrorView from "@/components/ui/ErrorView";
+import Empty from "@/components/ui/Empty";
+import Button from "@/components/atoms/Button";
+import ContactDetail from "@/components/organisms/ContactDetail";
+import AddContactModal from "@/components/organisms/AddContactModal";
+import Header from "@/components/organisms/Header";
+import ContactListItem from "@/components/molecules/ContactListItem";
 
 const Contacts = () => {
-  const [contacts, setContacts] = useState([])
+const [contacts, setContacts] = useState([])
   const [deals, setDeals] = useState([])
   const [activities, setActivities] = useState([])
   const [filteredContacts, setFilteredContacts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showAddContact, setShowAddContact] = useState(false)
   const [error, setError] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
   const [sortBy, setSortBy] = useState("name")
@@ -200,12 +203,10 @@ const getDealsForContact = (contactId) => {
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
-      <Header
+<Header
         onSearch={handleSearch}
         searchResults={searchResults}
         onSearchResultClick={handleSearchResultClick}
-        onContactAdded={handleContactAdded}
-        onDealAdded={handleDealAdded}
       />
       
       <main className="container mx-auto px-6 py-8">
@@ -224,22 +225,32 @@ const getDealsForContact = (contactId) => {
             title="No contacts yet"
             description="Start building your customer database by adding your first contact."
             action={() => {
-              // Trigger add contact modal
-              document.querySelector('[data-action="add-contact"]')?.click()
+setShowAddContact(true)
             }}
             actionLabel="Add Your First Contact"
           />
         ) : (
           <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-gray-200/60 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200/60 bg-gradient-to-r from-gray-50/80 to-white/80">
+<div className="px-6 py-4 border-b border-gray-200/60 bg-gradient-to-r from-gray-50/80 to-white/80">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <h2 className="text-lg font-semibold text-gray-900">
                     All Contacts ({filteredContacts.length})
                   </h2>
                 </div>
-                <div className="text-sm text-gray-500">
-                  {searchQuery && `Filtered by "${searchQuery}"`}
+                <div className="flex items-center space-x-4">
+                  <Button
+                    variant="primary"
+                    size="default"
+                    onClick={() => setShowAddContact(true)}
+                    className="flex items-center space-x-2"
+                  >
+                    <ApperIcon name="UserPlus" className="w-4 h-4" />
+                    <span className="hidden sm:inline">Add Contact</span>
+                  </Button>
+                  <div className="text-sm text-gray-500">
+                    {searchQuery && `Filtered by "${searchQuery}"`}
+                  </div>
                 </div>
               </div>
             </div>
@@ -314,7 +325,14 @@ const getDealsForContact = (contactId) => {
           </div>
         )}
       </main>
-      
+<AddContactModal
+        isOpen={showAddContact}
+        onClose={() => setShowAddContact(false)}
+        onSuccess={(contact) => {
+          handleContactAdded(contact)
+          setShowAddContact(false)
+        }}
+      />
       <ContactDetail
         contact={selectedContact}
         deals={selectedDeals}

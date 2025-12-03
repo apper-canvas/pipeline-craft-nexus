@@ -12,12 +12,8 @@ import { cn } from "@/utils/cn";
 const Header = ({ 
   onSearch,
   searchResults = [],
-  onSearchResultClick,
-  onContactAdded,
-  onDealAdded
+  onSearchResultClick
 }) => {
-const [showAddContact, setShowAddContact] = useState(false)
-  const [showAddDeal, setShowAddDeal] = useState(false)
   const location = useLocation()
   
   const navItems = [
@@ -73,27 +69,7 @@ const [showAddContact, setShowAddContact] = useState(false)
                 className="hidden md:block w-80"
               />
               
-              <div className="flex items-center space-x-2">
-                <Button
-                  variant="secondary"
-                  size="default"
-                  onClick={() => setShowAddContact(true)}
-                  className="flex items-center space-x-2"
-                >
-                  <ApperIcon name="UserPlus" className="w-4 h-4" />
-                  <span className="hidden sm:inline">Add Contact</span>
-                </Button>
-                
-                <Button
-                  variant="primary"
-                  size="default"
-                  onClick={() => setShowAddDeal(true)}
-                  className="flex items-center space-x-2"
-                >
-                  <ApperIcon name="Plus" className="w-4 h-4" />
-                  <span className="hidden sm:inline">Add Deal</span>
-                </Button>
-              </div>
+{/* Add buttons moved to respective pages */}
               
               {/* User Actions */}
               <div className="flex items-center space-x-4">
@@ -114,23 +90,7 @@ const [showAddContact, setShowAddContact] = useState(false)
         </div>
       </header>
       
-      <AddContactModal
-        isOpen={showAddContact}
-        onClose={() => setShowAddContact(false)}
-        onSuccess={(contact) => {
-          onContactAdded?.(contact)
-          setShowAddContact(false)
-        }}
-      />
-      
-      <AddDealModal
-        isOpen={showAddDeal}
-        onClose={() => setShowAddDeal(false)}
-        onSuccess={(deal) => {
-          onDealAdded?.(deal)
-          setShowAddDeal(false)
-        }}
-      />
+{/* Modals moved to respective pages */}
     </>
   )
 }

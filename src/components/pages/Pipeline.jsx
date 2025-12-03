@@ -4,15 +4,21 @@ import { dealService } from "@/services/api/dealService";
 import { contactService } from "@/services/api/contactService";
 import { activityService } from "@/services/api/activityService";
 import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
 import Loading from "@/components/ui/Loading";
 import ErrorView from "@/components/ui/ErrorView";
+import Button from "@/components/atoms/Button";
 import PipelineBoard from "@/components/organisms/PipelineBoard";
 import ContactDetail from "@/components/organisms/ContactDetail";
+import AddContactModal from "@/components/organisms/AddContactModal";
 import Header from "@/components/organisms/Header";
+import AddDealModal from "@/components/organisms/AddDealModal";
 
 const Pipeline = () => {
   const [deals, setDeals] = useState([])
-  const [contacts, setContacts] = useState([])
+const [contacts, setContacts] = useState([])
+  const [showAddContact, setShowAddContact] = useState(false)
+  const [showAddDeal, setShowAddDeal] = useState(false)
   const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -162,22 +168,44 @@ const handleStageChange = async (dealId, newStage) => {
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
-      <Header
+<Header
         onSearch={handleSearch}
         searchResults={searchResults}
         onSearchResultClick={handleSearchResultClick}
-        onContactAdded={handleContactAdded}
-        onDealAdded={handleDealAdded}
       />
       
-      <main className="container mx-auto px-6 py-8">
+<main className="container mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-2">
-            Sales Pipeline
-          </h1>
-          <p className="text-gray-600">
-            Track and manage your deals through the sales process
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-2">
+                Sales Pipeline
+              </h1>
+              <p className="text-gray-600">
+                Track and manage your deals through the sales process
+              </p>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Button
+                variant="secondary"
+                size="default"
+                onClick={() => setShowAddContact(true)}
+                className="flex items-center space-x-2"
+              >
+                <ApperIcon name="UserPlus" className="w-4 h-4" />
+                <span className="hidden sm:inline">Add Contact</span>
+              </Button>
+              <Button
+                variant="primary"
+                size="default"
+                onClick={() => setShowAddDeal(true)}
+                className="flex items-center space-x-2"
+              >
+                <ApperIcon name="Plus" className="w-4 h-4" />
+                <span className="hidden sm:inline">Add Deal</span>
+              </Button>
+            </div>
+          </div>
         </div>
         
         <PipelineBoard
@@ -185,10 +213,7 @@ const handleStageChange = async (dealId, newStage) => {
           contacts={contacts}
           onDealClick={handleDealClick}
           onStageChange={handleStageChange}
-          onAddDeal={() => {
-            // Trigger add deal modal through header
-            document.querySelector('button[data-action="add-deal"]')?.click()
-          }}
+onAddDeal={() => setShowAddDeal(true)}
         />
       </main>
       
@@ -201,6 +226,24 @@ const handleStageChange = async (dealId, newStage) => {
         onEditContact={(contact) => {
           // Navigate to contacts page with selected contact
           navigate("/contacts", { state: { selectedContact: contact } })
+        }}
+}}
+      />
+      
+      <AddContactModal
+        isOpen={showAddContact}
+        onClose={() => setShowAddContact(false)}
+          handleContactAdded(contact)
+          setShowAddContact(false)
+        }}
+      />
+      
+      <AddDealModal
+        isOpen={showAddDeal}
+        onClose={() => setShowAddDeal(false)}
+        onSuccess={(deal) => {
+          handleDealAdded(deal)
+          setShowAddDeal(false)
         }}
       />
     </div>
