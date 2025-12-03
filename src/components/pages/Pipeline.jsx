@@ -223,16 +223,16 @@ onAddDeal={() => setShowAddDeal(true)}
         activities={contactActivities}
         isOpen={showContactDetail}
         onClose={() => setShowContactDetail(false)}
-        onEditContact={(contact) => {
+onEditContact={(contact) => {
           // Navigate to contacts page with selected contact
           navigate("/contacts", { state: { selectedContact: contact } })
         }}
-}}
       />
       
-      <AddContactModal
+<AddContactModal
         isOpen={showAddContact}
         onClose={() => setShowAddContact(false)}
+        onSuccess={(contact) => {
           handleContactAdded(contact)
           setShowAddContact(false)
         }}
