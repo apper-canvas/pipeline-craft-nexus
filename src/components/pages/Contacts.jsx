@@ -69,14 +69,14 @@ const [contactsData, dealsData, activitiesData] = await Promise.all([
     }
   }
   
-  const filterAndSortContacts = () => {
+const filterAndSortContacts = () => {
     let filtered = contacts
     
     if (searchQuery.trim()) {
       filtered = contacts.filter(contact =>
-        contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (contact.company && contact.company.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (contact.email && contact.email.toLowerCase().includes(searchQuery.toLowerCase()))
+        (contact?.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (contact?.company || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (contact?.email || "").toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
     
@@ -85,20 +85,20 @@ const [contactsData, dealsData, activitiesData] = await Promise.all([
       
       switch (sortBy) {
         case "name":
-          aValue = a.name.toLowerCase()
-          bValue = b.name.toLowerCase()
+          aValue = (a?.name || "").toLowerCase()
+          bValue = (b?.name || "").toLowerCase()
           break
         case "company":
-          aValue = (a.company || "").toLowerCase()
-          bValue = (b.company || "").toLowerCase()
+          aValue = (a?.company || "").toLowerCase()
+          bValue = (b?.company || "").toLowerCase()
           break
         case "created":
-          aValue = new Date(a.createdAt)
-          bValue = new Date(b.createdAt)
+          aValue = new Date(a?.createdAt || 0)
+          bValue = new Date(b?.createdAt || 0)
           break
         default:
-          aValue = a.name.toLowerCase()
-          bValue = b.name.toLowerCase()
+          aValue = (a?.name || "").toLowerCase()
+          bValue = (b?.name || "").toLowerCase()
       }
       
       if (aValue < bValue) return sortOrder === "asc" ? -1 : 1

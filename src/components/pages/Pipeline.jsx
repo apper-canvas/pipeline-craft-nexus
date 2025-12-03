@@ -55,16 +55,16 @@ const [dealsData, contactsData, activitiesData] = await Promise.all([
     }
   }
   
-  const handleSearch = (query) => {
+const handleSearch = (query) => {
     if (!query.trim()) {
       setSearchResults([])
       return
     }
     
     const results = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(query.toLowerCase()) ||
-      (contact.company && contact.company.toLowerCase().includes(query.toLowerCase())) ||
-      (contact.email && contact.email.toLowerCase().includes(query.toLowerCase()))
+      (contact?.name || "").toLowerCase().includes(query.toLowerCase()) ||
+      (contact?.company || "").toLowerCase().includes(query.toLowerCase()) ||
+      (contact?.email || "").toLowerCase().includes(query.toLowerCase())
     )
     
     setSearchResults(results)
@@ -90,7 +90,7 @@ const handleSearchResultClick = (contact) => {
   }
   
 const handleStageChange = async (dealId, newStage) => {
-    const deal = deals.find(d => d.Id === dealId)
+    const deal = deals.find(d => d?.Id === dealId)
     if (!deal) return
     
     try {
@@ -119,13 +119,12 @@ const handleStageChange = async (dealId, newStage) => {
       const updatedActivities = await activityService.getAll()
       setActivities(updatedActivities)
       
-      toast.success(`Deal moved to ${newStage}`)
+toast.success(`Deal moved to ${newStage}`)
     } catch (error) {
       toast.error("Failed to update deal stage")
       console.error("Stage change error:", error)
     }
   }
-  
   const handleContactAdded = async (contact) => {
     setContacts(prev => [...prev, contact])
   }
@@ -250,4 +249,4 @@ onEditContact={(contact) => {
   )
 }
 
-export default Pipeline
+export default Pipeline;

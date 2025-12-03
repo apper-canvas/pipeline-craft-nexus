@@ -18,16 +18,16 @@ const PipelineBoard = ({
   
   const stages = Object.values(DEAL_STAGES)
   
-  const getDealsByStage = (stage) => {
-    return deals.filter(deal => deal.stage === stage)
+const getDealsByStage = (stage) => {
+    return deals.filter(deal => deal?.stage === stage)
   }
   
 const getContactForDeal = (dealContactId) => {
-    return contacts.find(contact => contact.Id === dealContactId)
+    return contacts.find(contact => contact?.Id === dealContactId)
   }
   
-  const getStageTotal = (stage) => {
-    return getDealsByStage(stage).reduce((sum, deal) => sum + deal.value, 0)
+const getStageTotal = (stage) => {
+    return getDealsByStage(stage).reduce((sum, deal) => sum + (deal?.value || 0), 0)
   }
   
   const handleDragStart = (e, deal) => {
@@ -52,8 +52,8 @@ const getContactForDeal = (dealContactId) => {
   const handleDrop = (e, newStage) => {
     e.preventDefault()
     
-    if (draggedDeal && draggedDeal.stage !== newStage) {
-      onStageChange?.(draggedDeal.Id, newStage)
+if (draggedDeal && draggedDeal?.stage !== newStage) {
+      onStageChange?.(draggedDeal?.Id, newStage)
     }
     
     setDraggedDeal(null)
