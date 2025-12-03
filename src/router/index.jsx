@@ -6,6 +6,7 @@ const Root = lazy(() => import("@/layouts/Root"))
 const Layout = lazy(() => import("@/components/organisms/Layout"))
 const Pipeline = lazy(() => import("@/components/pages/Pipeline"))
 const Contacts = lazy(() => import("@/components/pages/Contacts"))
+const Tasks = lazy(() => import("@/components/pages/Tasks"))
 const NotFound = lazy(() => import("@/components/pages/NotFound"))
 const Login = lazy(() => import("@/components/pages/Login"))
 const Signup = lazy(() => import("@/components/pages/Signup"))
@@ -70,6 +71,11 @@ const mainRoutes = [
   createRoute({
     path: "contacts",
     element: <Contacts />
+  }),
+createRoute({
+    path: "tasks",
+    element: <Tasks />,
+    title: "Tasks"
   }),
   createRoute({
     path: "*",

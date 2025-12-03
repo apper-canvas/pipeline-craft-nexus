@@ -17,7 +17,8 @@ const Header = ({
   const location = useLocation()
   
   const navItems = [
-    { path: "/", label: "Pipeline", icon: "BarChart3" },
+{ path: "/", label: "Pipeline", icon: "BarChart3" },
+    { path: "/tasks", label: "Tasks", icon: "CheckSquare" },
     { path: "/contacts", label: "Contacts", icon: "Users" }
   ]
   

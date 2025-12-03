@@ -19,3 +19,31 @@ export const ACTIVITY_TYPES = {
   STAGE_CHANGED: "stage_changed",
   CONTACT_UPDATED: "contact_updated"
 }
+
+export const TASK_STATUSES = {
+  OPEN: "Open",
+  IN_PROGRESS: "In Progress", 
+  COMPLETED: "Completed",
+  BLOCKED: "Blocked"
+}
+
+export const TASK_PRIORITIES = {
+  LOW: "Low",
+  NORMAL: "Normal",
+  HIGH: "High", 
+  URGENT: "Urgent"
+}
+
+export const STATUS_COLORS = {
+  [TASK_STATUSES.OPEN]: "gray",
+  [TASK_STATUSES.IN_PROGRESS]: "blue",
+  [TASK_STATUSES.COMPLETED]: "green",
+  [TASK_STATUSES.BLOCKED]: "red"
+}
+
+export const PRIORITY_COLORS = {
+  [TASK_PRIORITIES.LOW]: "gray",
+  [TASK_PRIORITIES.NORMAL]: "blue",
+  [TASK_PRIORITIES.HIGH]: "amber",
+  [TASK_PRIORITIES.URGENT]: "red"
+}

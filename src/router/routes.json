@@ -23,6 +23,20 @@
         ]
       },
       "redirectOnDeny": "/login"
+}
+  },
+  "/tasks": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "User must be logged in to view tasks",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login",
+      "excludeRedirectQuery": false
     }
   },
   "/login": {
