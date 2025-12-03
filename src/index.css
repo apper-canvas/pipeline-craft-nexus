@@ -1,0 +1,67 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'react-toastify/dist/ReactToastify.css';
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  
+  * {
+    @apply antialiased;
+  }
+}
+
+@layer components {
+  .drag-handle {
+    cursor: grab;
+  }
+  
+  .drag-handle:active {
+    cursor: grabbing;
+  }
+  
+  .pipeline-column {
+    @apply min-h-[600px] bg-gradient-to-b from-white to-gray-50/30 border border-gray-200/60 rounded-xl backdrop-blur-sm;
+  }
+  
+  .deal-card {
+    @apply bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-lg shadow-sm hover:shadow-md transition-all duration-200;
+  }
+  
+  .deal-card:hover {
+    @apply transform -translate-y-0.5 shadow-lg;
+  }
+  
+  .stage-lead { @apply border-l-4 border-l-blue-500; }
+  .stage-qualified { @apply border-l-4 border-l-indigo-500; }
+  .stage-proposal { @apply border-l-4 border-l-purple-500; }
+  .stage-negotiation { @apply border-l-4 border-l-amber-500; }
+  .stage-closed { @apply border-l-4 border-l-green-500; }
+}
+
+.Toastify__toast-container {
+  @apply z-[9999];
+}
+
+.Toastify__toast {
+  @apply rounded-lg shadow-lg backdrop-blur-sm;
+}
+
+.Toastify__toast--success {
+  @apply bg-gradient-to-r from-green-500 to-green-600 text-white;
+}
+
+.Toastify__toast--error {
+  @apply bg-gradient-to-r from-red-500 to-red-600 text-white;
+}
+
+.Toastify__toast--info {
+  @apply bg-gradient-to-r from-blue-500 to-blue-600 text-white;
+}
+
+.Toastify__progress-bar {
+  @apply bg-white/30;
+}
