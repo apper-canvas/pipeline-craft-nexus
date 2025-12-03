@@ -6,6 +6,7 @@ const Button = forwardRef(({
   variant = "primary", 
   size = "default", 
   disabled = false,
+  onClick,
   children, 
   ...props 
 }, ref) => {
@@ -26,10 +27,11 @@ const Button = forwardRef(({
   }
   
   return (
-    <button
+<button
       className={cn(baseStyles, variants[variant], sizes[size], className)}
       disabled={disabled}
       ref={ref}
+      onClick={typeof onClick === 'function' ? onClick : undefined}
       {...props}
     >
       {children}
