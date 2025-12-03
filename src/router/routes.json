@@ -37,6 +37,19 @@
       },
       "redirectOnDeny": "/login",
       "excludeRedirectQuery": false
+}
+  },
+  "/quotes": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "User must be logged in to view quotes",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
     }
   },
   "/tasks": {

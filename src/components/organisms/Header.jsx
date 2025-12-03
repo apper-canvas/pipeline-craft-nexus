@@ -20,7 +20,8 @@ const navItems = [
     { path: "/", label: "Pipeline", icon: "BarChart3" },
     { path: "/tasks", label: "Tasks", icon: "CheckSquare" },
     { path: "/contacts", label: "Contacts", icon: "Users" },
-    { path: "/companies", label: "Companies", icon: "Building2" }
+{ path: "/companies", label: "Companies", icon: "Building2" },
+    { path: "/quotes", label: "Quotes", icon: "FileText" }
   ]
   
   return (

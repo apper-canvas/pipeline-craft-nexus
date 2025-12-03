@@ -47,3 +47,17 @@ export const PRIORITY_COLORS = {
   [TASK_PRIORITIES.HIGH]: "amber",
   [TASK_PRIORITIES.URGENT]: "red"
 }
+
+export const QUOTE_STATUSES = {
+  DRAFT: "Draft",
+  SENT: "Sent",
+  ACCEPTED: "Accepted",
+  REJECTED: "Rejected"
+}
+
+export const QUOTE_STATUS_COLORS = {
+  [QUOTE_STATUSES.DRAFT]: "gray",
+  [QUOTE_STATUSES.SENT]: "blue", 
+  [QUOTE_STATUSES.ACCEPTED]: "green",
+  [QUOTE_STATUSES.REJECTED]: "red"
+}
