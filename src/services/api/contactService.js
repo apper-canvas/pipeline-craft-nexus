@@ -1,67 +1,164 @@
-import contactsData from "@/services/mockData/contacts.json"
-
-// In-memory storage simulation
-let contacts = [...contactsData]
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+import { getApperClient } from "@/services/apperClient"
 
 export const contactService = {
   async getAll() {
-    await delay(300)
-    return [...contacts]
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const response = await apperClient.fetchRecords('contact_c', {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "email_c"}},
+          {"field": {"Name": "phone_c"}},
+          {"field": {"Name": "company_c"}},
+          {"field": {"Name": "notes_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ]
+      })
+
+      if (!response?.data?.length) {
+        return []
+      }
+
+      // Map database fields to UI format
+      return response.data.map(contact => ({
+        Id: contact.Id,
+        name: contact.Name,
+        email: contact.email_c,
+        phone: contact.phone_c,
+        company: contact.company_c,
+        notes: contact.notes_c,
+        createdAt: contact.CreatedOn,
+        updatedAt: contact.CreatedOn
+      }))
+    } catch (error) {
+      console.error("Error fetching contacts:", error?.response?.data?.message || error)
+      return []
+    }
   },
 
   async getById(id) {
-    await delay(200)
-    const contact = contacts.find(c => c.Id === parseInt(id))
-    if (!contact) {
-      throw new Error("Contact not found")
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const response = await apperClient.getRecordById('contact_c', id, {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "email_c"}},
+          {"field": {"Name": "phone_c"}},
+          {"field": {"Name": "company_c"}},
+          {"field": {"Name": "notes_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ]
+      })
+
+      if (!response?.data) {
+        return null
+      }
+
+      // Map database fields to UI format
+      return {
+        Id: response.data.Id,
+        name: response.data.Name,
+        email: response.data.email_c,
+        phone: response.data.phone_c,
+        company: response.data.company_c,
+        notes: response.data.notes_c,
+        createdAt: response.data.CreatedOn,
+        updatedAt: response.data.CreatedOn
+      }
+    } catch (error) {
+      console.error(`Error fetching contact ${id}:`, error?.response?.data?.message || error)
+      return null
     }
-    return { ...contact }
   },
 
   async create(contactData) {
-    await delay(400)
-    
-    // Generate new ID
-    const maxId = contacts.length > 0 ? Math.max(...contacts.map(c => c.Id)) : 0
-    const newContact = {
-      Id: maxId + 1,
-      ...contactData,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const params = {
+        records: [{
+          Name: contactData.name,
+          email_c: contactData.email,
+          phone_c: contactData.phone,
+          company_c: contactData.company,
+          notes_c: contactData.notes
+        }]
+      }
+
+      const response = await apperClient.createRecord('contact_c', params)
+      
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+
+      return response.records[0]
+    } catch (error) {
+      console.error("Error creating contact:", error?.response?.data?.message || error)
+      throw error
     }
-    
-    contacts.push(newContact)
-    return { ...newContact }
   },
 
   async update(id, updates) {
-    await delay(400)
-    
-    const index = contacts.findIndex(c => c.Id === parseInt(id))
-    if (index === -1) {
-      throw new Error("Contact not found")
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const params = {
+        records: [{
+          Id: id,
+          Name: updates.name,
+          email_c: updates.email,
+          phone_c: updates.phone,
+          company_c: updates.company,
+          notes_c: updates.notes
+        }]
+      }
+
+      const response = await apperClient.updateRecord('contact_c', params)
+      
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+
+      return response.records[0]
+    } catch (error) {
+      console.error("Error updating contact:", error?.response?.data?.message || error)
+      throw error
     }
-    
-    contacts[index] = {
-      ...contacts[index],
-      ...updates,
-      updatedAt: new Date().toISOString()
-    }
-    
-    return { ...contacts[index] }
   },
 
   async delete(id) {
-    await delay(300)
-    
-    const index = contacts.findIndex(c => c.Id === parseInt(id))
-    if (index === -1) {
-      throw new Error("Contact not found")
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const response = await apperClient.deleteRecord('contact_c', {
+        RecordIds: [id]
+      })
+      
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+
+      return true
+    } catch (error) {
+      console.error("Error deleting contact:", error?.response?.data?.message || error)
+      throw error
     }
-    
-    contacts.splice(index, 1)
-    return true
   }
 }

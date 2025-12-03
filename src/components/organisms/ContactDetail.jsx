@@ -63,7 +63,7 @@ const ContactDetail = ({
           </div>
           
           <div className="flex items-center space-x-4">
-            <Avatar name={contact.name} size="xl" />
+<Avatar name={contact.name} size="xl" />
             <div className="flex-1">
               <h3 className="text-xl font-bold text-gray-900">{contact.name}</h3>
               <p className="text-gray-600">{contact.company || "No Company"}</p>
@@ -98,7 +98,7 @@ const ContactDetail = ({
             <h4 className="font-semibold text-gray-900 mb-3">Contact Information</h4>
             <div className="space-y-3">
               <div>
-                <label className="text-sm font-medium text-gray-500">Email</label>
+<label className="text-sm font-medium text-gray-500">Email</label>
                 <div className="text-gray-900">{contact.email || "-"}</div>
               </div>
               <div>
@@ -192,8 +192,8 @@ const ContactDetail = ({
                       />
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm text-gray-900">
-                        {activity.type === "stage_changed" 
+<div className="text-sm text-gray-900">
+                        {activity.type === "stage_changed"
                           ? `Deal moved from ${activity.fromStage} to ${activity.toStage}`
                           : "Deal created"
                         }

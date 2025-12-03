@@ -22,7 +22,7 @@ const PipelineBoard = ({
     return deals.filter(deal => deal.stage === stage)
   }
   
-  const getContactForDeal = (dealContactId) => {
+const getContactForDeal = (dealContactId) => {
     return contacts.find(contact => contact.Id === dealContactId)
   }
   
@@ -122,13 +122,13 @@ const PipelineBoard = ({
                   <p className="text-sm">No deals</p>
                 </div>
               ) : (
-                stageDeals.map((deal) => {
+stageDeals.map((deal) => {
                   const contact = getContactForDeal(deal.contactId)
                   const isDragging = draggedDeal?.Id === deal.Id
                   
                   return (
                     <div
-                      key={deal.Id}
+key={deal.Id}
                       draggable
                       onDragStart={(e) => handleDragStart(e, deal)}
                       onDragEnd={handleDragEnd}

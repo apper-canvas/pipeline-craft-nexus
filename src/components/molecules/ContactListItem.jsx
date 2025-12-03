@@ -22,7 +22,7 @@ const ContactListItem = ({
       onClick={() => onClick?.(contact)}
     >
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="flex items-center space-x-3">
+<div className="flex items-center space-x-3">
           <Avatar name={contact.name} size="default" />
           <div>
             <div className="text-sm font-medium text-gray-900">
@@ -35,7 +35,7 @@ const ContactListItem = ({
         </div>
       </td>
       
-      <td className="px-6 py-4 whitespace-nowrap">
+<td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900">{contact.company || "-"}</div>
       </td>
       

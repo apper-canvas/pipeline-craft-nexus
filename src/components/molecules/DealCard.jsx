@@ -32,7 +32,7 @@ const DealCard = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex items-center space-x-3 mb-3">
-        <Avatar 
+<Avatar 
           name={contact?.name} 
           size="default"
           className="flex-shrink-0"

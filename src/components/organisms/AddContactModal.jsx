@@ -51,7 +51,7 @@ const AddContactModal = ({ isOpen, onClose, onSuccess }) => {
     setIsSubmitting(true)
     
     try {
-      const contact = await contactService.create(formData)
+const contact = await contactService.create(formData)
       toast.success("Contact added successfully!")
       onSuccess?.(contact)
       handleReset()
@@ -156,7 +156,7 @@ const AddContactModal = ({ isOpen, onClose, onSuccess }) => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Notes
           </label>
-          <textarea
+<textarea
             name="notes"
             value={formData.notes}
             onChange={handleChange}

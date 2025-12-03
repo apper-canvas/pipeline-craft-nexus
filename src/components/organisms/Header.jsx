@@ -1,11 +1,13 @@
-import { useState } from "react"
-import { Link, useLocation } from "react-router-dom"
-import SearchBar from "@/components/molecules/SearchBar"
-import Button from "@/components/atoms/Button"
-import ApperIcon from "@/components/ApperIcon"
-import AddContactModal from "@/components/organisms/AddContactModal"
-import AddDealModal from "@/components/organisms/AddDealModal"
-import { cn } from "@/utils/cn"
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import UserMenu from "@/components/molecules/UserMenu";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import AddContactModal from "@/components/organisms/AddContactModal";
+import AddDealModal from "@/components/organisms/AddDealModal";
+import Pipeline from "@/components/pages/Pipeline";
+import SearchBar from "@/components/molecules/SearchBar";
+import { cn } from "@/utils/cn";
 
 const Header = ({ 
   onSearch,
@@ -14,7 +16,7 @@ const Header = ({
   onContactAdded,
   onDealAdded
 }) => {
-  const [showAddContact, setShowAddContact] = useState(false)
+const [showAddContact, setShowAddContact] = useState(false)
   const [showAddDeal, setShowAddDeal] = useState(false)
   const location = useLocation()
   
@@ -56,7 +58,7 @@ const Header = ({
                       <span>{item.label}</span>
                     </Link>
                   )
-                })}
+})}
               </nav>
             </div>
             
@@ -92,9 +94,13 @@ const Header = ({
                   <span className="hidden sm:inline">Add Deal</span>
                 </Button>
               </div>
+              
+              {/* User Actions */}
+              <div className="flex items-center space-x-4">
+                <UserMenu />
+              </div>
             </div>
-          </div>
-          
+</div>
           {/* Mobile Search */}
           <div className="md:hidden pb-3">
             <SearchBar

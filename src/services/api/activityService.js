@@ -1,56 +1,179 @@
-import activitiesData from "@/services/mockData/activities.json"
-
-// In-memory storage simulation
-let activities = [...activitiesData]
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+import { getApperClient } from "@/services/apperClient"
 
 export const activityService = {
   async getAll() {
-    await delay(250)
-    return [...activities].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const response = await apperClient.fetchRecords('activity_c', {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "deal_id_c"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "from_stage_c"}},
+          {"field": {"Name": "to_stage_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ],
+        orderBy: [{
+          "fieldName": "CreatedOn",
+          "sorttype": "DESC"
+        }]
+      })
+
+      if (!response?.data?.length) {
+        return []
+      }
+
+      // Map database fields to UI format
+      return response.data.map(activity => ({
+        Id: activity.Id,
+        dealId: activity.deal_id_c?.Id || activity.deal_id_c,
+        type: activity.type_c,
+        fromStage: activity.from_stage_c,
+        toStage: activity.to_stage_c,
+        timestamp: activity.CreatedOn
+      }))
+    } catch (error) {
+      console.error("Error fetching activities:", error?.response?.data?.message || error)
+      return []
+    }
   },
 
   async getById(id) {
-    await delay(200)
-    const activity = activities.find(a => a.Id === parseInt(id))
-    if (!activity) {
-      throw new Error("Activity not found")
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const response = await apperClient.getRecordById('activity_c', id, {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "deal_id_c"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "from_stage_c"}},
+          {"field": {"Name": "to_stage_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ]
+      })
+
+      if (!response?.data) {
+        return null
+      }
+
+      // Map database fields to UI format
+      return {
+        Id: response.data.Id,
+        dealId: response.data.deal_id_c?.Id || response.data.deal_id_c,
+        type: response.data.type_c,
+        fromStage: response.data.from_stage_c,
+        toStage: response.data.to_stage_c,
+        timestamp: response.data.CreatedOn
+      }
+    } catch (error) {
+      console.error(`Error fetching activity ${id}:`, error?.response?.data?.message || error)
+      return null
     }
-    return { ...activity }
   },
 
   async create(activityData) {
-    await delay(300)
-    
-    // Generate new ID
-    const maxId = activities.length > 0 ? Math.max(...activities.map(a => a.Id)) : 0
-    const newActivity = {
-      Id: maxId + 1,
-      ...activityData,
-      timestamp: new Date().toISOString()
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const params = {
+        records: [{
+          deal_id_c: parseInt(activityData.dealId),
+          type_c: activityData.type,
+          from_stage_c: activityData.fromStage,
+          to_stage_c: activityData.toStage
+        }]
+      }
+
+      const response = await apperClient.createRecord('activity_c', params)
+      
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+
+      return response.records[0]
+    } catch (error) {
+      console.error("Error creating activity:", error?.response?.data?.message || error)
+      throw error
     }
-    
-    activities.push(newActivity)
-    return { ...newActivity }
   },
 
   async getByDealId(dealId) {
-    await delay(200)
-    return activities
-      .filter(a => a.dealId === parseInt(dealId))
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const response = await apperClient.fetchRecords('activity_c', {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "deal_id_c"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "from_stage_c"}},
+          {"field": {"Name": "to_stage_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ],
+        where: [{
+          "FieldName": "deal_id_c",
+          "Operator": "EqualTo",
+          "Values": [parseInt(dealId)],
+          "Include": true
+        }],
+        orderBy: [{
+          "fieldName": "CreatedOn",
+          "sorttype": "DESC"
+        }]
+      })
+
+      if (!response?.data?.length) {
+        return []
+      }
+
+      // Map database fields to UI format
+      return response.data.map(activity => ({
+        Id: activity.Id,
+        dealId: activity.deal_id_c?.Id || activity.deal_id_c,
+        type: activity.type_c,
+        fromStage: activity.from_stage_c,
+        toStage: activity.to_stage_c,
+        timestamp: activity.CreatedOn
+      }))
+    } catch (error) {
+      console.error("Error fetching activities by deal:", error?.response?.data?.message || error)
+      return []
+    }
   },
 
   async delete(id) {
-    await delay(250)
-    
-    const index = activities.findIndex(a => a.Id === parseInt(id))
-    if (index === -1) {
-      throw new Error("Activity not found")
+    try {
+      const apperClient = getApperClient()
+      if (!apperClient) {
+        throw new Error("ApperClient not initialized")
+      }
+
+      const response = await apperClient.deleteRecord('activity_c', {
+        RecordIds: [id]
+      })
+      
+      if (!response.success) {
+        throw new Error(response.message)
+      }
+
+      return true
+    } catch (error) {
+      console.error("Error deleting activity:", error?.response?.data?.message || error)
+      throw error
     }
-    
-    activities.splice(index, 1)
-    return true
   }
 }

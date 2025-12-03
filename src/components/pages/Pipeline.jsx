@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import Header from "@/components/organisms/Header"
-import PipelineBoard from "@/components/organisms/PipelineBoard"
-import ContactDetail from "@/components/organisms/ContactDetail"
-import Loading from "@/components/ui/Loading"
-import ErrorView from "@/components/ui/ErrorView"
-import { dealService } from "@/services/api/dealService"
-import { contactService } from "@/services/api/contactService"
-import { activityService } from "@/services/api/activityService"
-import { toast } from "react-toastify"
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { dealService } from "@/services/api/dealService";
+import { contactService } from "@/services/api/contactService";
+import { activityService } from "@/services/api/activityService";
+import { toast } from "react-toastify";
+import Loading from "@/components/ui/Loading";
+import ErrorView from "@/components/ui/ErrorView";
+import PipelineBoard from "@/components/organisms/PipelineBoard";
+import ContactDetail from "@/components/organisms/ContactDetail";
+import Header from "@/components/organisms/Header";
 
 const Pipeline = () => {
   const [deals, setDeals] = useState([])
@@ -32,7 +32,7 @@ const Pipeline = () => {
     setError("")
     
     try {
-      const [dealsData, contactsData, activitiesData] = await Promise.all([
+const [dealsData, contactsData, activitiesData] = await Promise.all([
         dealService.getAll(),
         contactService.getAll(),
         activityService.getAll()
@@ -64,7 +64,7 @@ const Pipeline = () => {
     setSearchResults(results)
   }
   
-  const handleSearchResultClick = (contact) => {
+const handleSearchResultClick = (contact) => {
     const contactDeals = deals.filter(deal => deal.contactId === contact.Id)
     const contactActivitiesFiltered = activities.filter(activity => 
       contactDeals.some(deal => deal.Id === activity.dealId)
@@ -83,11 +83,11 @@ const Pipeline = () => {
     }
   }
   
-  const handleStageChange = async (dealId, newStage) => {
+const handleStageChange = async (dealId, newStage) => {
+    const deal = deals.find(d => d.Id === dealId)
+    if (!deal) return
+    
     try {
-      const deal = deals.find(d => d.Id === dealId)
-      if (!deal) return
-      
       const oldStage = deal.stage
       
       // Update deal stage

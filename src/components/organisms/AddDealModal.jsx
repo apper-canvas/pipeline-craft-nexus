@@ -75,7 +75,7 @@ const AddDealModal = ({ isOpen, onClose, onSuccess }) => {
     setIsSubmitting(true)
     
     try {
-      const dealData = {
+const dealData = {
         ...formData,
         contactId: parseInt(formData.contactId),
         value: parseFloat(formData.value)
@@ -150,7 +150,7 @@ const AddDealModal = ({ isOpen, onClose, onSuccess }) => {
             <option value="">
               {isLoadingContacts ? "Loading contacts..." : "Select a contact"}
             </option>
-            {contacts.map((contact) => (
+{contacts.map((contact) => (
               <option key={contact.Id} value={contact.Id}>
                 {contact.name} {contact.company ? `(${contact.company})` : ""}
               </option>

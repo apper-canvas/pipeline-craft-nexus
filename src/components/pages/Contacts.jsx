@@ -49,7 +49,7 @@ const Contacts = () => {
     setError("")
     
     try {
-      const [contactsData, dealsData, activitiesData] = await Promise.all([
+const [contactsData, dealsData, activitiesData] = await Promise.all([
         contactService.getAll(),
         dealService.getAll(),
         activityService.getAll()
@@ -128,7 +128,7 @@ const Contacts = () => {
     setSearchResults([])
   }
   
-  const handleContactClick = (contact) => {
+const handleContactClick = (contact) => {
     const contactDeals = deals.filter(deal => deal.contactId === contact.Id)
     const contactActivitiesFiltered = activities.filter(activity => 
       contactDeals.some(deal => deal.Id === activity.dealId)
@@ -149,7 +149,7 @@ const Contacts = () => {
     }
   }
   
-  const getDealsForContact = (contactId) => {
+const getDealsForContact = (contactId) => {
     return deals.filter(deal => deal.contactId === contactId)
   }
   

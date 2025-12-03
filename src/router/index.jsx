@@ -1,10 +1,18 @@
 import { createBrowserRouter } from "react-router-dom"
 import { Suspense, lazy } from "react"
+import { getRouteConfig } from "@/router/route.utils"
 
+const Root = lazy(() => import("@/layouts/Root"))
 const Layout = lazy(() => import("@/components/organisms/Layout"))
 const Pipeline = lazy(() => import("@/components/pages/Pipeline"))
 const Contacts = lazy(() => import("@/components/pages/Contacts"))
 const NotFound = lazy(() => import("@/components/pages/NotFound"))
+const Login = lazy(() => import("@/components/pages/Login"))
+const Signup = lazy(() => import("@/components/pages/Signup"))
+const Callback = lazy(() => import("@/components/pages/Callback"))
+const ErrorPage = lazy(() => import("@/components/pages/ErrorPage"))
+const ResetPassword = lazy(() => import("@/components/pages/ResetPassword"))
+const PromptPassword = lazy(() => import("@/components/pages/PromptPassword"))
 
 const LoadingSpinner = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -18,43 +26,92 @@ const LoadingSpinner = () => (
   </div>
 )
 
+const createRoute = ({
+  path,
+  index,
+  element,
+  access,
+  children,
+  ...meta
+}) => {
+  // Get config for this route
+  let configPath;
+  if (index) {
+    configPath = "/";
+  } else {
+    configPath = path.startsWith('/') ? path : `/${path}`;
+  }
+
+  const config = getRouteConfig(configPath);
+  const finalAccess = access || config?.allow;
+
+  const route = {
+    ...(index ? { index: true } : { path }),
+    element: element ? <Suspense fallback={<LoadingSpinner />}>{element}</Suspense> : element,
+    handle: {
+      access: finalAccess,
+      ...meta,
+    },
+  };
+
+  if (children && children.length > 0) {
+    route.children = children;
+  }
+
+  return route;
+};
+
 const mainRoutes = [
-  {
+  createRoute({
     path: "",
     index: true,
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <Pipeline />
-      </Suspense>
-    )
-  },
-  {
+    element: <Pipeline />
+  }),
+  createRoute({
     path: "contacts",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <Contacts />
-      </Suspense>
-    )
-  },
-  {
+    element: <Contacts />
+  }),
+  createRoute({
     path: "*",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <NotFound />
-      </Suspense>
-    )
-  }
+    element: <NotFound />
+  })
 ]
 
 const routes = [
   {
     path: "/",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <Layout />
-      </Suspense>
-    ),
-    children: [...mainRoutes]
+    element: <Root />,
+    children: [
+      createRoute({
+        path: "login",
+        element: <Login />
+      }),
+      createRoute({
+        path: "signup",
+        element: <Signup />
+      }),
+      createRoute({
+        path: "callback",
+        element: <Callback />
+      }),
+      createRoute({
+        path: "error",
+        element: <ErrorPage />
+      }),
+      createRoute({
+        path: "prompt-password/:appId/:emailAddress/:provider",
+        element: <PromptPassword />
+      }),
+      createRoute({
+        path: "reset-password/:appId/:fields",
+        element: <ResetPassword />
+      }),
+      {
+        path: "",
+        element: <Layout />,
+        children: [...mainRoutes]
+      }
+    ]
   }
 ]
 
