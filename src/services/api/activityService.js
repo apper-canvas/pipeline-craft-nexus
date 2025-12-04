@@ -1,5 +1,5 @@
-import { getApperClient } from "@/services/apperClient"
-
+import { getApperClient } from "@/services/apperClient";
+import { toast } from "react-hot-toast";
 export const activityService = {
   async getAll() {
     try {
@@ -96,12 +96,36 @@ export const activityService = {
       }
 
       const response = await apperClient.createRecord('activity_c', params)
-      
-      if (!response.success) {
-        throw new Error(response.message)
+if (!response.success) {
+        console.error('Activity creation failed:', response.message);
+        toast.error(response.message);
+        return null;
       }
 
-      return response.records[0]
+      // Handle bulk operation results
+      if (response.results && response.results.length > 0) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+        
+        if (failed.length > 0) {
+          console.error(`Failed to create ${failed.length} activity records:`, failed);
+          failed.forEach(record => {
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        if (successful.length > 0) {
+          return successful[0].data;
+        }
+      }
+
+      // Handle direct response data
+      if (response.data) {
+        return response.data;
+      }
+
+      // Fallback - return a basic response structure if available
+      return response || null;
     } catch (error) {
       console.error("Error creating activity:", error?.response?.data?.message || error)
       throw error
