@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState, createContext, useContext } from "react";
+import { useEffect, useState, createContext, useContext, startTransition } from "react";
 import { setUser, clearUser, setInitialized } from "@/store/userSlice";
 import { getRouteConfig, verifyRouteAccess } from "@/router/route.utils";
 import { getApperClient } from "@/services/apperClient";
@@ -112,22 +112,24 @@ export default function Root() {
     dispatch(setInitialized(true)); // Redux state for route guards
   };
 
-  const handleNavigation = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const redirectPath = urlParams.get("redirect");
+const handleNavigation = () => {
+    startTransition(() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectPath = urlParams.get("redirect");
 
-    if (redirectPath) {
-      navigate(redirectPath);
-    } else {
-      // Navigate to home only if on auth pages
-      const authPages = ["/login", "/signup", "/callback"];
-      const isOnAuthPage = authPages.some(page =>
-        window.location.pathname.includes(page)
-      );
-      if (isOnAuthPage) {
-        navigate("/");
+      if (redirectPath) {
+        navigate(redirectPath);
+      } else {
+        // Navigate to home only if on auth pages
+        const authPages = ["/login", "/signup", "/callback"];
+        const isOnAuthPage = authPages.some(page =>
+          window.location.pathname.includes(page)
+        );
+        if (isOnAuthPage) {
+          navigate("/");
+        }
       }
-    }
+    });
   };
 
   const logout = async () => {
