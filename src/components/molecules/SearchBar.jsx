@@ -1,7 +1,7 @@
-import { useState } from "react"
-import ApperIcon from "@/components/ApperIcon"
-import Input from "@/components/atoms/Input"
-import { cn } from "@/utils/cn"
+import React, { useState } from "react";
+import ApperIcon from "@/components/ApperIcon";
+import Input from "@/components/atoms/Input";
+import { cn } from "@/utils/cn";
 
 const SearchBar = ({ 
   placeholder = "Search...",
@@ -14,7 +14,7 @@ const SearchBar = ({
   const [query, setQuery] = useState("")
   const [isFocused, setIsFocused] = useState(false)
   
-  const handleChange = (e) => {
+const handleChange = (e) => {
     const value = e.target.value
     setQuery(value)
     onSearch?.(value)
