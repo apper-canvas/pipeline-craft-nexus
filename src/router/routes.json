@@ -23,7 +23,7 @@
         ]
       },
       "redirectOnDeny": "/login"
-}
+    }
   },
   "/companies": {
     "allow": {
@@ -37,7 +37,7 @@
       },
       "redirectOnDeny": "/login",
       "excludeRedirectQuery": false
-}
+    }
   },
   "/quotes": {
     "allow": {
@@ -45,6 +45,19 @@
         "conditions": [
           {
             "label": "User must be logged in to view quotes",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/sales-orders": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "User must be logged in to view sales orders",
             "rule": "authenticated"
           }
         ]
