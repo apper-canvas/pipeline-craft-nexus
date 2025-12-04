@@ -120,28 +120,28 @@ const Tasks = () => {
 
   if (loading) {
     return (
-      <Layout>
+<div className="lg:pl-64">
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <Loading />
         </div>
-      </Layout>
+      </div>
     )
   }
 
   if (error) {
     return (
-      <Layout>
+<div className="lg:pl-64">
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <ErrorView message={error} onRetry={loadTasks} />
         </div>
-      </Layout>
+      </div>
     )
   }
 
-  return (
-    <Layout>
+return (
+    <div className="lg:pl-64">
       <Header />
       <main className="flex-1 p-6">
         <div className="max-w-7xl mx-auto">
@@ -294,7 +294,7 @@ const Tasks = () => {
         task={editingTask}
         onSuccess={handleModalSuccess}
       />
-    </Layout>
+    </div>
   )
 }
 
