@@ -16,22 +16,23 @@ const Header = ({
 }) => {
   const location = useLocation()
   
-const navItems = [
-    { path: "/", label: "Pipeline", icon: "BarChart3" },
-    { path: "/tasks", label: "Tasks", icon: "CheckSquare" },
-    { path: "/contacts", label: "Contacts", icon: "Users" },
-    { path: "/companies", label: "Companies", icon: "Building2" },
-    { path: "/quotes", label: "Quotes", icon: "FileText" },
-    { path: "/sales-orders", label: "Sales Orders", icon: "ShoppingCart" }
-  ]
-  
-  return (
+return (
     <>
       <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200/60 sticky top-0 z-40">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between h-16">
-            {/* Logo and Navigation */}
-            <div className="flex items-center space-x-8">
+            {/* Mobile menu button - only show on mobile */}
+            <div className="lg:hidden">
+              <button
+                type="button"
+                className="p-2 rounded-lg text-gray-700 hover:bg-gray-100"
+              >
+                <ApperIcon name="Menu" className="w-5 h-5" />
+              </button>
+            </div>
+            
+            {/* Logo - only show on mobile, hidden on desktop since it's in sidebar */}
+            <div className="lg:hidden">
               <Link 
                 to="/" 
                 className="flex items-center space-x-2 text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
@@ -39,28 +40,10 @@ const navItems = [
                 <ApperIcon name="TrendingUp" className="w-6 h-6 text-blue-600" />
                 <span>Pipeline</span>
               </Link>
-              
-              <nav className="hidden md:flex items-center space-x-6">
-                {navItems.map((item) => {
-                  const isActive = location.pathname === item.path
-                  return (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className={cn(
-                        "flex items-center space-x-2 px-3 py-2 rounded-lg font-medium transition-colors",
-                        isActive 
-                          ? "bg-blue-50 text-blue-700 border border-blue-200/60" 
-                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                      )}
-                    >
-                      <ApperIcon name={item.icon} className="w-4 h-4" />
-                      <span>{item.label}</span>
-                    </Link>
-                  )
-})}
-              </nav>
             </div>
+            
+            {/* Desktop spacing */}
+            <div className="hidden lg:block flex-1"></div>
             
             {/* Search and Actions */}
             <div className="flex items-center space-x-4">
