@@ -12,6 +12,8 @@ import Button from "@/components/atoms/Button";
 import ContactDetail from "@/components/organisms/ContactDetail";
 import AddContactModal from "@/components/organisms/AddContactModal";
 import Header from "@/components/organisms/Header";
+import Deals from "@/components/pages/Deals";
+import SearchBar from "@/components/molecules/SearchBar";
 import ContactListItem from "@/components/molecules/ContactListItem";
 
 const Contacts = () => {
@@ -203,17 +205,28 @@ const getDealsForContact = (contactId) => {
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30">
-<Header
-        onSearch={handleSearch}
-        searchResults={searchResults}
-        onSearchResultClick={handleSearchResultClick}
-      />
+<Header />
       
       <main className="container mx-auto px-6 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent mb-2">
             Contacts
-          </h1>
+</h1>
+          
+          {/* Search Section */}
+          <div className="px-6 py-4 border-b border-gray-200/60">
+            <div className="max-w-md">
+              <SearchBar
+                placeholder="Search contacts..."
+                value={searchQuery}
+                onChange={setSearchQuery}
+                showResults={true}
+                results={searchResults}
+                onResultClick={handleSearchResultClick}
+                className="w-full"
+              />
+            </div>
+          </div>
           <p className="text-gray-600">
             Manage your customer relationships and contact information
           </p>
@@ -232,30 +245,30 @@ setShowAddContact(true)
         ) : (
           <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-gray-200/60 overflow-hidden">
 <div className="px-6 py-4 border-b border-gray-200/60 bg-gradient-to-r from-gray-50/80 to-white/80">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    All Contacts ({filteredContacts.length})
-                  </h2>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <Button
-                    variant="primary"
-                    size="default"
-                    onClick={() => setShowAddContact(true)}
-                    className="flex items-center space-x-2"
-                  >
-                    <ApperIcon name="UserPlus" className="w-4 h-4" />
-                    <span className="hidden sm:inline">Add Contact</span>
-                  </Button>
-                  <div className="text-sm text-gray-500">
-                    {searchQuery && `Filtered by "${searchQuery}"`}
-                  </div>
-                </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <h2 className="text-lg font-semibold text-gray-900">
+                All Contacts ({filteredContacts.length})
+              </h2>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="primary"
+                size="default"
+                onClick={() => setShowAddContact(true)}
+                className="flex items-center space-x-2"
+              >
+                <ApperIcon name="UserPlus" className="w-4 h-4" />
+                <span className="hidden sm:inline">Add Contact</span>
+              </Button>
+              <div className="text-sm text-gray-500">
+                {searchQuery && `Filtered by "${searchQuery}"`}
               </div>
             </div>
+</div>
+        </div>
             
-            <div className="overflow-x-auto">
+        <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50/60">
                   <tr>
