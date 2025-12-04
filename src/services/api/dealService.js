@@ -81,7 +81,7 @@ export const dealService = {
     }
   },
 
-  async create(dealData) {
+async create(dealData) {
     try {
       const apperClient = getApperClient()
       if (!apperClient) {
@@ -100,10 +100,25 @@ export const dealService = {
       const response = await apperClient.createRecord('deal_c', params)
       
       if (!response.success) {
+        console.error(response.message)
         throw new Error(response.message)
       }
 
-      return response.records[0]
+      if (response.results) {
+        const successful = response.results.filter(r => r.success)
+        const failed = response.results.filter(r => !r.success)
+        
+        if (failed.length > 0) {
+          console.error(`Failed to create ${failed.length} deal records:`, failed)
+          failed.forEach(record => {
+            if (record.message) throw new Error(record.message)
+          })
+        }
+        
+        return successful[0]?.data
+      }
+
+      throw new Error("Unexpected response structure")
     } catch (error) {
       console.error("Error creating deal:", error?.response?.data?.message || error)
       throw error
