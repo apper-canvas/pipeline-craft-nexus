@@ -11,7 +11,8 @@ const navItems = [
   { path: "/companies", label: "Companies", icon: "Building2" },
 { path: "/quotes", label: "Quotes", icon: "FileText" },
   { path: "/deals", label: "Deals", icon: "Handshake" },
-  { path: "/sales-orders", label: "Sales Orders", icon: "ShoppingCart" }
+{ path: "/sales-orders", label: "Sales Orders", icon: "ShoppingCart" },
+  { path: "/customize", label: "Customize", icon: "Settings" }
 ]
 
 const Sidebar = () => {
