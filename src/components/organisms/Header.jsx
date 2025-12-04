@@ -9,11 +9,7 @@ import Pipeline from "@/components/pages/Pipeline";
 import SearchBar from "@/components/molecules/SearchBar";
 import { cn } from "@/utils/cn";
 
-const Header = ({ 
-  onSearch,
-  searchResults = [],
-  onSearchResultClick
-}) => {
+const Header = () => {
   const location = useLocation()
   
 return (
@@ -47,14 +43,7 @@ return (
             
             {/* Search and Actions */}
             <div className="flex items-center space-x-4">
-              <SearchBar
-                placeholder="Search contacts and deals..."
-                onSearch={onSearch}
-                showResults={true}
-                results={searchResults}
-                onResultClick={onSearchResultClick}
-                className="hidden md:block w-80"
-              />
+{/* Global search removed - each page has its own search */}
               
 {/* Add buttons moved to respective pages */}
               
@@ -65,15 +54,7 @@ return (
             </div>
 </div>
           {/* Mobile Search */}
-          <div className="md:hidden pb-3">
-            <SearchBar
-              placeholder="Search contacts and deals..."
-              onSearch={onSearch}
-              showResults={true}
-              results={searchResults}
-              onResultClick={onSearchResultClick}
-            />
-          </div>
+{/* Mobile search removed - each page has its own search */}
         </div>
       </header>
       
