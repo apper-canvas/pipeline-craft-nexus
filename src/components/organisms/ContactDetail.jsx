@@ -63,9 +63,12 @@ const ContactDetail = ({
           </div>
           
           <div className="flex items-center space-x-4">
-<Avatar name={contact.name} size="xl" />
+<Avatar name={contact.firstName && contact.lastName ? `${contact.firstName} ${contact.lastName}` : contact.name} size="xl" />
             <div className="flex-1">
               <h3 className="text-xl font-bold text-gray-900">{contact.name}</h3>
+              {(contact.firstName || contact.lastName) && (
+                <p className="text-sm text-gray-500">{contact.firstName} {contact.lastName}</p>
+              )}
               <p className="text-gray-600">{contact.company || "No Company"}</p>
               <div className="flex items-center space-x-4 mt-2">
                 {contact.email && (
@@ -97,28 +100,68 @@ const ContactDetail = ({
           <div className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-gray-200/60">
             <h4 className="font-semibold text-gray-900 mb-3">Contact Information</h4>
             <div className="space-y-3">
-              <div>
-<label className="text-sm font-medium text-gray-500">Email</label>
-                <div className="text-gray-900">{contact.email || "-"}</div>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-gray-500">Phone</label>
-                <div className="text-gray-900">{contact.phone || "-"}</div>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-gray-500">Company</label>
-                <div className="text-gray-900">{contact.company || "-"}</div>
-              </div>
-              {contact.notes && (
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="text-sm font-medium text-gray-500">Notes</label>
-                  <div className="text-gray-900">{contact.notes}</div>
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3 border-b border-gray-200 pb-1">Contact Information</h4>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Email</label>
+                      <div className="text-gray-900">{contact.email || "-"}</div>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Phone</label>
+                      <div className="text-gray-900">{contact.phone || "-"}</div>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Company</label>
+                      <div className="text-gray-900">{contact.company || "-"}</div>
+                    </div>
+                    {contact.address && (
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Address</label>
+                        <div className="text-gray-900 whitespace-pre-line">{contact.address}</div>
+                      </div>
+                    )}
+                    {contact.tags && (
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Tags</label>
+                        <div className="text-gray-900">{contact.tags}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3 border-b border-gray-200 pb-1">Emergency Contact</h4>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Emergency Contact Name</label>
+                      <div className="text-gray-900">{contact.emergencyName || "-"}</div>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-500">Emergency Mobile</label>
+                      <div className="text-gray-900">{contact.emergencyMobile || "-"}</div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-3 border-b border-gray-200 pb-1">System Information</h4>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Added</label>
+                        <div className="text-gray-900">{formatDate(contact.createdAt)}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {contact.notes && (
+                <div className="mt-6">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3 border-b border-gray-200 pb-1">Notes</h4>
+                  <div className="text-gray-900 whitespace-pre-line">{contact.notes}</div>
                 </div>
               )}
-              <div>
-                <label className="text-sm font-medium text-gray-500">Added</label>
-                <div className="text-gray-900">{formatDate(contact.createdAt)}</div>
-              </div>
             </div>
           </div>
           

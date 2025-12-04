@@ -8,12 +8,18 @@ export const contactService = {
         throw new Error("ApperClient not initialized")
       }
 
-      const response = await apperClient.fetchRecords('contact_c', {
+const response = await apperClient.fetchRecords('contact_c', {
         fields: [
           {"field": {"Name": "Name"}},
+          {"field": {"Name": "first_name_c"}},
+          {"field": {"Name": "last_name_c"}},
           {"field": {"Name": "email_c"}},
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "company_c"}},
+          {"field": {"Name": "address_c"}},
+          {"field": {"Name": "Tags"}},
+          {"field": {"Name": "emergency_name_c"}},
+          {"field": {"Name": "emergency_mobile_c"}},
           {"field": {"Name": "notes_c"}},
           {"field": {"Name": "CreatedOn"}}
         ]
@@ -25,11 +31,17 @@ export const contactService = {
 
       // Map database fields to UI format
       return response.data.map(contact => ({
-        Id: contact.Id,
+Id: contact.Id,
         name: contact.Name,
+        firstName: contact.first_name_c,
+        lastName: contact.last_name_c,
         email: contact.email_c,
         phone: contact.phone_c,
         company: contact.company_c,
+        address: contact.address_c,
+        tags: contact.Tags,
+        emergencyName: contact.emergency_name_c,
+        emergencyMobile: contact.emergency_mobile_c,
         notes: contact.notes_c,
         createdAt: contact.CreatedOn,
         updatedAt: contact.CreatedOn
@@ -48,11 +60,17 @@ export const contactService = {
       }
 
       const response = await apperClient.getRecordById('contact_c', id, {
-        fields: [
+fields: [
           {"field": {"Name": "Name"}},
+          {"field": {"Name": "first_name_c"}},
+          {"field": {"Name": "last_name_c"}},
           {"field": {"Name": "email_c"}},
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "company_c"}},
+          {"field": {"Name": "address_c"}},
+          {"field": {"Name": "Tags"}},
+          {"field": {"Name": "emergency_name_c"}},
+          {"field": {"Name": "emergency_mobile_c"}},
           {"field": {"Name": "notes_c"}},
           {"field": {"Name": "CreatedOn"}}
         ]
@@ -64,11 +82,17 @@ export const contactService = {
 
       // Map database fields to UI format
       return {
-        Id: response.data.Id,
+Id: response.data.Id,
         name: response.data.Name,
+        firstName: response.data.first_name_c,
+        lastName: response.data.last_name_c,
         email: response.data.email_c,
         phone: response.data.phone_c,
         company: response.data.company_c,
+        address: response.data.address_c,
+        tags: response.data.Tags,
+        emergencyName: response.data.emergency_name_c,
+        emergencyMobile: response.data.emergency_mobile_c,
         notes: response.data.notes_c,
         createdAt: response.data.CreatedOn,
         updatedAt: response.data.CreatedOn
@@ -87,11 +111,17 @@ export const contactService = {
       }
 
       const params = {
-        records: [{
+records: [{
           Name: contactData.name,
+          first_name_c: contactData.firstName,
+          last_name_c: contactData.lastName,
           email_c: contactData.email,
           phone_c: contactData.phone,
           company_c: contactData.company,
+          address_c: contactData.address,
+          Tags: contactData.tags,
+          emergency_name_c: contactData.emergencyName,
+          emergency_mobile_c: contactData.emergencyMobile,
           notes_c: contactData.notes
         }]
       }
@@ -133,11 +163,17 @@ const response = await apperClient.createRecord('contact_c', params)
 
       const params = {
         records: [{
-          Id: id,
+Id: id,
           Name: updates.name,
+          first_name_c: updates.firstName,
+          last_name_c: updates.lastName,
           email_c: updates.email,
           phone_c: updates.phone,
           company_c: updates.company,
+          address_c: updates.address,
+          Tags: updates.tags,
+          emergency_name_c: updates.emergencyName,
+          emergency_mobile_c: updates.emergencyMobile,
           notes_c: updates.notes
         }]
       }

@@ -25,8 +25,10 @@ const ContactListItem = ({
 <div className="flex items-center space-x-3">
           <Avatar name={contact.name} size="default" />
           <div>
-            <div className="text-sm font-medium text-gray-900">
-              {contact.name}
+<div className="text-sm font-medium text-gray-900">
+              {contact.firstName && contact.lastName 
+                ? `${contact.firstName} ${contact.lastName}` 
+                : contact.name}
             </div>
             <div className="text-sm text-gray-500">
               {contact.email}

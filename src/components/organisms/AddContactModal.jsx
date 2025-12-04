@@ -6,11 +6,17 @@ import { toast } from "react-toastify"
 import { contactService } from "@/services/api/contactService"
 
 const AddContactModal = ({ isOpen, onClose, onSuccess }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     company: "",
+    address: "",
+    tags: "",
+    emergencyName: "",
+    emergencyMobile: "",
     notes: ""
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -29,8 +35,11 @@ const AddContactModal = ({ isOpen, onClose, onSuccess }) => {
   const validateForm = () => {
     const newErrors = {}
     
-    if (!formData.name.trim()) {
+if (!formData.name.trim()) {
       newErrors.name = "Name is required"
+    }
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required"
     }
     
     if (!formData.email.trim()) {
@@ -65,10 +74,16 @@ const contact = await contactService.create(formData)
   
   const handleReset = () => {
     setFormData({
-      name: "",
+name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       phone: "",
       company: "",
+      address: "",
+      tags: "",
+      emergencyName: "",
+      emergencyMobile: "",
       notes: ""
     })
     setErrors({})
@@ -89,22 +104,54 @@ const contact = await contactService.create(formData)
       title="Add New Contact"
       size="default"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+<form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Name *
+            Full Name *
           </label>
           <Input
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Enter contact name"
+            placeholder="Enter full contact name"
             error={errors.name}
             disabled={isSubmitting}
           />
           {errors.name && (
             <p className="mt-1 text-sm text-red-600">{errors.name}</p>
           )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              First Name *
+            </label>
+            <Input
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="Enter first name"
+              error={errors.firstName}
+              disabled={isSubmitting}
+            />
+            {errors.firstName && (
+              <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Last Name
+            </label>
+            <Input
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Enter last name"
+              disabled={isSubmitting}
+            />
+          </div>
         </div>
         
         <div>
@@ -124,36 +171,94 @@ const contact = await contactService.create(formData)
             <p className="mt-1 text-sm text-red-600">{errors.email}</p>
           )}
         </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Phone
-          </label>
-          <Input
-            name="phone"
-            type="tel"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="Enter phone number"
-            disabled={isSubmitting}
-          />
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone
+            </label>
+            <Input
+              name="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Enter phone number"
+              disabled={isSubmitting}
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Company
+            </label>
+            <Input
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              placeholder="Enter company name"
+              disabled={isSubmitting}
+            />
+          </div>
         </div>
         
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Company
+            Address
+          </label>
+          <textarea
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Enter complete address..."
+            rows={2}
+            disabled={isSubmitting}
+            className="flex w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-colors resize-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Tags
           </label>
           <Input
-            name="company"
-            value={formData.company}
+            name="tags"
+            value={formData.tags}
             onChange={handleChange}
-            placeholder="Enter company name"
+            placeholder="Enter tags separated by commas"
             disabled={isSubmitting}
           />
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Emergency Contact Name
+            </label>
+            <Input
+              name="emergencyName"
+              value={formData.emergencyName}
+              onChange={handleChange}
+              placeholder="Enter emergency contact name"
+              disabled={isSubmitting}
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Emergency Mobile
+            </label>
+            <Input
+              name="emergencyMobile"
+              type="tel"
+              value={formData.emergencyMobile}
+              onChange={handleChange}
+              placeholder="Enter emergency mobile number"
+              disabled={isSubmitting}
+            />
+          </div>
+        </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+<label className="block text-sm font-medium text-gray-700 mb-2">
             Notes
           </label>
 <textarea
@@ -179,8 +284,8 @@ const contact = await contactService.create(formData)
           </Button>
           <Button
             type="submit"
-            variant="primary"
-            disabled={isSubmitting || !formData.name.trim() || !formData.email.trim()}
+variant="primary"
+            disabled={isSubmitting || !formData.name.trim() || !formData.firstName.trim() || !formData.email.trim()}
             className="flex-1"
           >
             {isSubmitting ? "Adding..." : "Add Contact"}

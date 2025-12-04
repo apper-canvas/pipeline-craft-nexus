@@ -74,11 +74,15 @@ const [contactsData, dealsData, activitiesData] = await Promise.all([
 const filterAndSortContacts = () => {
     let filtered = contacts
     
-    if (searchQuery.trim()) {
+if (searchQuery.trim()) {
       filtered = contacts.filter(contact =>
         (contact?.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (contact?.firstName || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (contact?.lastName || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
         (contact?.company || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (contact?.email || "").toLowerCase().includes(searchQuery.toLowerCase())
+        (contact?.email || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (contact?.address || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (contact?.tags || "").toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
     
@@ -119,10 +123,14 @@ const filterAndSortContacts = () => {
       return
     }
     
-    const results = contacts.filter(contact =>
+const results = contacts.filter(contact =>
       contact.name.toLowerCase().includes(query.toLowerCase()) ||
+      (contact.firstName && contact.firstName.toLowerCase().includes(query.toLowerCase())) ||
+      (contact.lastName && contact.lastName.toLowerCase().includes(query.toLowerCase())) ||
       (contact.company && contact.company.toLowerCase().includes(query.toLowerCase())) ||
-      (contact.email && contact.email.toLowerCase().includes(query.toLowerCase()))
+      (contact.email && contact.email.toLowerCase().includes(query.toLowerCase())) ||
+      (contact.address && contact.address.toLowerCase().includes(query.toLowerCase())) ||
+      (contact.tags && contact.tags.toLowerCase().includes(query.toLowerCase()))
     )
     
     setSearchResults(results)
