@@ -10,6 +10,7 @@ const Companies = lazy(() => import("@/components/pages/Companies"))
 const Tasks = lazy(() => import("@/components/pages/Tasks"))
 const Quotes = lazy(() => import("@/components/pages/Quotes"))
 const SalesOrders = lazy(() => import("@/components/pages/SalesOrders"))
+const Deals = lazy(() => import("@/components/pages/Deals"))
 const NotFound = lazy(() => import("@/components/pages/NotFound"))
 const Login = lazy(() => import("@/components/pages/Login"))
 const Signup = lazy(() => import("@/components/pages/Signup"))
@@ -84,6 +85,11 @@ const mainRoutes = [
     path: 'quotes',
     element: <Quotes />,
     title: 'Quotes'
+}),
+  createRoute({
+    path: 'deals',
+    element: <Deals />,
+    title: 'Deals'
   }),
   createRoute({
     path: 'sales-orders',

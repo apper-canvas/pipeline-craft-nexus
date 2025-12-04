@@ -8,7 +8,8 @@ const navItems = [
   { path: "/tasks", label: "Tasks", icon: "CheckSquare" },
   { path: "/contacts", label: "Contacts", icon: "Users" },
   { path: "/companies", label: "Companies", icon: "Building2" },
-  { path: "/quotes", label: "Quotes", icon: "FileText" },
+{ path: "/quotes", label: "Quotes", icon: "FileText" },
+  { path: "/deals", label: "Deals", icon: "Handshake" },
   { path: "/sales-orders", label: "Sales Orders", icon: "ShoppingCart" }
 ]
 
