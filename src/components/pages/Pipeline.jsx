@@ -22,7 +22,8 @@ const [contacts, setContacts] = useState([])
   const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [searchResults, setSearchResults] = useState([])
+const [searchResults, setSearchResults] = useState([])
+  const [searchQuery, setSearchQuery] = useState("")
   const [selectedContact, setSelectedContact] = useState(null)
   const [selectedDeals, setSelectedDeals] = useState([])
   const [contactActivities, setContactActivities] = useState([])
@@ -56,11 +57,14 @@ const [dealsData, contactsData, activitiesData] = await Promise.all([
   }
   
 const handleSearch = (query) => {
+    setSearchQuery(query)
+    
     if (!query.trim()) {
       setSearchResults([])
       return
     }
     
+    // Search across contacts for dropdown results
     const results = contacts.filter(contact =>
       (contact?.name || "").toLowerCase().includes(query.toLowerCase()) ||
       (contact?.company || "").toLowerCase().includes(query.toLowerCase()) ||
@@ -70,7 +74,7 @@ const handleSearch = (query) => {
     setSearchResults(results)
   }
   
-const handleSearchResultClick = (contact) => {
+  const handleSearchResultClick = (contact) => {
     const contactDeals = deals.filter(deal => deal.contactId === contact.Id)
     const contactActivitiesFiltered = activities.filter(activity => 
       contactDeals.some(deal => deal.Id === activity.dealId)
@@ -81,6 +85,35 @@ const handleSearchResultClick = (contact) => {
     setContactActivities(contactActivitiesFiltered)
     setShowContactDetail(true)
     setSearchResults([])
+  }
+  
+  const handleClearSearch = () => {
+    setSearchQuery("")
+    setSearchResults([])
+  }
+  
+  // Filter deals based on search query
+  const getFilteredDeals = () => {
+    if (!searchQuery.trim()) {
+      return deals
+    }
+    
+    const query = searchQuery.toLowerCase()
+    
+    return deals.filter(deal => {
+      // Search in deal properties
+      const dealMatch = (deal?.name || "").toLowerCase().includes(query) ||
+                        (deal?.description || "").toLowerCase().includes(query) ||
+                        (deal?.stage || "").toLowerCase().includes(query)
+      
+      // Search in associated contact
+      const contact = contacts.find(c => c.Id === deal.contactId)
+      const contactMatch = contact ? 
+        (contact.name || "").toLowerCase().includes(query) ||
+        (contact.email || "").toLowerCase().includes(query) ||
+        (contact.company || "").toLowerCase().includes(query) : false
+return dealMatch || contactMatch
+    })
   }
   
   const handleDealClick = (deal, contact) => {
@@ -171,6 +204,8 @@ toast.success(`Deal moved to ${newStage}`)
         onSearch={handleSearch}
         searchResults={searchResults}
         onSearchResultClick={handleSearchResultClick}
+        searchQuery={searchQuery}
+        onClearSearch={handleClearSearch}
       />
       
 <main className="container mx-auto px-6 py-8">
@@ -208,11 +243,12 @@ toast.success(`Deal moved to ${newStage}`)
         </div>
         
         <PipelineBoard
-          deals={deals}
+          deals={getFilteredDeals()}
           contacts={contacts}
           onDealClick={handleDealClick}
           onStageChange={handleStageChange}
-onAddDeal={() => setShowAddDeal(true)}
+          onAddDeal={() => setShowAddDeal(true)}
+          searchQuery={searchQuery}
         />
       </main>
       

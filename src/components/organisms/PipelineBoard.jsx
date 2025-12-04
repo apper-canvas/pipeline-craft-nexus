@@ -11,7 +11,8 @@ const PipelineBoard = ({
   contacts = [], 
   onDealClick,
   onStageChange,
-  onAddDeal
+  onAddDeal,
+  searchQuery = ""
 }) => {
   const [draggedDeal, setDraggedDeal] = useState(null)
   const [dragOverStage, setDragOverStage] = useState(null)
