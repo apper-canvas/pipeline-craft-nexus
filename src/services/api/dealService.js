@@ -8,9 +8,10 @@ export const dealService = {
         throw new Error("ApperClient not initialized")
       }
 
-      const response = await apperClient.fetchRecords('deal_c', {
+const response = await apperClient.fetchRecords('deal_c', {
         fields: [
           {"field": {"Name": "Name"}},
+          {"field": {"Name": "Tags"}},
           {"field": {"Name": "title_c"}},
           {"field": {"Name": "value_c"}},
           {"field": {"Name": "stage_c"}},
@@ -25,8 +26,10 @@ export const dealService = {
       }
 
       // Map database fields to UI format
-      return response.data.map(deal => ({
+return response.data.map(deal => ({
         Id: deal.Id,
+        name: deal.Name,
+        tags: deal.Tags,
         title: deal.title_c,
         value: deal.value_c,
         stage: deal.stage_c,
@@ -48,9 +51,10 @@ export const dealService = {
         throw new Error("ApperClient not initialized")
       }
 
-      const response = await apperClient.getRecordById('deal_c', id, {
+const response = await apperClient.getRecordById('deal_c', id, {
         fields: [
           {"field": {"Name": "Name"}},
+          {"field": {"Name": "Tags"}},
           {"field": {"Name": "title_c"}},
           {"field": {"Name": "value_c"}},
           {"field": {"Name": "stage_c"}},
@@ -65,8 +69,10 @@ export const dealService = {
       }
 
       // Map database fields to UI format
-      return {
+return {
         Id: response.data.Id,
+        name: response.data.Name,
+        tags: response.data.Tags,
         title: response.data.title_c,
         value: response.data.value_c,
         stage: response.data.stage_c,
@@ -88,8 +94,10 @@ async create(dealData) {
         throw new Error("ApperClient not initialized")
       }
 
-      const params = {
+const params = {
         records: [{
+          Name: dealData.name,
+          Tags: dealData.tags,
           title_c: dealData.title,
           value_c: dealData.value,
           stage_c: dealData.stage,
@@ -184,9 +192,10 @@ async create(dealData) {
         throw new Error("ApperClient not initialized")
       }
 
-      const response = await apperClient.fetchRecords('deal_c', {
+const response = await apperClient.fetchRecords('deal_c', {
         fields: [
           {"field": {"Name": "Name"}},
+          {"field": {"Name": "Tags"}},
           {"field": {"Name": "title_c"}},
           {"field": {"Name": "value_c"}},
           {"field": {"Name": "stage_c"}},
@@ -206,9 +215,11 @@ async create(dealData) {
         return []
       }
 
-      // Map database fields to UI format
+// Map database fields to UI format
       return response.data.map(deal => ({
         Id: deal.Id,
+        name: deal.Name,
+        tags: deal.Tags,
         title: deal.title_c,
         value: deal.value_c,
         stage: deal.stage_c,
@@ -230,9 +241,10 @@ async create(dealData) {
         throw new Error("ApperClient not initialized")
       }
 
-      const response = await apperClient.fetchRecords('deal_c', {
+const response = await apperClient.fetchRecords('deal_c', {
         fields: [
           {"field": {"Name": "Name"}},
+          {"field": {"Name": "Tags"}},
           {"field": {"Name": "title_c"}},
           {"field": {"Name": "value_c"}},
           {"field": {"Name": "stage_c"}},
@@ -252,9 +264,11 @@ async create(dealData) {
         return []
       }
 
-      // Map database fields to UI format
+// Map database fields to UI format
       return response.data.map(deal => ({
         Id: deal.Id,
+        name: deal.Name,
+        tags: deal.Tags,
         title: deal.title_c,
         value: deal.value_c,
         stage: deal.stage_c,

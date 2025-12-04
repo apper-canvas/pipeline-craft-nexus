@@ -8,8 +8,11 @@ import { contactService } from "@/services/api/contactService"
 import { DEAL_STAGES } from "@/utils/constants"
 
 const AddDealModal = ({ isOpen, onClose, onSuccess }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
+    name: "",
     title: "",
+    tags: "",
+    date: "",
     contactId: "",
     value: "",
     stage: DEAL_STAGES.LEAD
@@ -48,8 +51,12 @@ const AddDealModal = ({ isOpen, onClose, onSuccess }) => {
     }
   }
   
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {}
+    
+    if (!formData.name.trim()) {
+      newErrors.name = "Deal name is required"
+    }
     
     if (!formData.title.trim()) {
       newErrors.title = "Deal title is required"
@@ -93,9 +100,12 @@ const dealData = {
     }
   }
   
-  const handleReset = () => {
+const handleReset = () => {
     setFormData({
+      name: "",
       title: "",
+      tags: "",
+      date: "",
       contactId: "",
       value: "",
       stage: DEAL_STAGES.LEAD
@@ -118,7 +128,24 @@ const dealData = {
       title="Add New Deal"
       size="default"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+<form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Deal Name *
+          </label>
+          <Input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter deal name"
+            error={errors.name}
+            disabled={isSubmitting}
+          />
+          {errors.name && (
+            <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+          )}
+        </div>
+        
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Deal Title *
@@ -134,6 +161,32 @@ const dealData = {
           {errors.title && (
             <p className="mt-1 text-sm text-red-600">{errors.title}</p>
           )}
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Tags
+          </label>
+          <Input
+            name="tags"
+            value={formData.tags}
+            onChange={handleChange}
+            placeholder="Enter tags (comma separated)"
+            disabled={isSubmitting}
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Deal Date
+          </label>
+          <Input
+            name="date"
+            type="date"
+            value={formData.date}
+            onChange={handleChange}
+            disabled={isSubmitting}
+          />
         </div>
         
         <div>
@@ -210,10 +263,10 @@ const dealData = {
           >
             Cancel
           </Button>
-          <Button
+<Button
             type="submit"
             variant="primary"
-            disabled={isSubmitting || !formData.title.trim() || !formData.contactId || !formData.value}
+            disabled={isSubmitting || !formData.name.trim() || !formData.title.trim() || !formData.contactId || !formData.value}
             className="flex-1"
           >
             {isSubmitting ? "Adding..." : "Add Deal"}

@@ -37,9 +37,9 @@ const DealCard = ({
           size="default"
           className="flex-shrink-0"
         />
-        <div className="flex-1 min-w-0">
+<div className="flex-1 min-w-0">
           <h4 className="font-semibold text-gray-900 truncate text-sm">
-            {contact?.name || "Unknown Contact"}
+            {deal?.name || contact?.name || "Unknown Deal"}
           </h4>
           <p className="text-xs text-gray-500 truncate">
             {contact?.company || "No Company"}
@@ -61,12 +61,19 @@ const DealCard = ({
         )}
       </div>
       
-      <div className="flex items-center justify-between text-xs text-gray-500">
-        <span>{deal.title}</span>
-        <div className="flex items-center space-x-1">
-          <ApperIcon name="Calendar" className="w-3 h-3" />
-          <span>{daysInStage === 1 ? "Today" : `${daysInStage}d ago`}</span>
+<div className="space-y-1">
+        <div className="flex items-center justify-between text-xs text-gray-500">
+          <span>{deal.title}</span>
+          <div className="flex items-center space-x-1">
+            <ApperIcon name="Calendar" className="w-3 h-3" />
+            <span>{daysInStage === 1 ? "Today" : `${daysInStage}d ago`}</span>
+          </div>
         </div>
+        {deal?.tags && (
+          <div className="text-xs text-gray-400">
+            <span>Tags: {deal.tags}</span>
+          </div>
+        )}
       </div>
     </div>
   )
