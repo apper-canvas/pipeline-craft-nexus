@@ -1,24 +1,26 @@
-import { createBrowserRouter } from "react-router-dom"
-import { Suspense, lazy } from "react"
-import { getRouteConfig } from "@/router/route.utils"
+import { createBrowserRouter } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { getRouteConfig } from "@/router/route.utils";
+import Loading from "@/components/ui/Loading";
 
-const Root = lazy(() => import("@/layouts/Root"))
-const Layout = lazy(() => import("@/components/organisms/Layout"))
-const Pipeline = lazy(() => import("@/components/pages/Pipeline"))
-const Contacts = lazy(() => import("@/components/pages/Contacts"))
-const Companies = lazy(() => import("@/components/pages/Companies"))
-const Tasks = lazy(() => import("@/components/pages/Tasks"))
-const Leads = lazy(() => import("@/components/pages/Leads"))
-const Quotes = lazy(() => import("@/components/pages/Quotes"))
-const SalesOrders = lazy(() => import("@/components/pages/SalesOrders"))
-const Deals = lazy(() => import("@/components/pages/Deals"))
-const NotFound = lazy(() => import("@/components/pages/NotFound"))
-const Login = lazy(() => import("@/components/pages/Login"))
-const Signup = lazy(() => import("@/components/pages/Signup"))
-const Callback = lazy(() => import("@/components/pages/Callback"))
-const ErrorPage = lazy(() => import("@/components/pages/ErrorPage"))
-const ResetPassword = lazy(() => import("@/components/pages/ResetPassword"))
-const PromptPassword = lazy(() => import("@/components/pages/PromptPassword"))
+const Root = lazy(() => import("@/layouts/Root"));
+const Layout = lazy(() => import("@/components/organisms/Layout"));
+const Pipeline = lazy(() => import("@/components/pages/Pipeline"));
+const Contacts = lazy(() => import("@/components/pages/Contacts"));
+const Companies = lazy(() => import("@/components/pages/Companies"));
+const Tasks = lazy(() => import("@/components/pages/Tasks"));
+const Leads = lazy(() => import("@/components/pages/Leads"));
+const Quotes = lazy(() => import("@/components/pages/Quotes"));
+const SalesOrders = lazy(() => import("@/components/pages/SalesOrders"));
+const Deals = lazy(() => import("@/components/pages/Deals"));
+const NotFound = lazy(() => import("@/components/pages/NotFound"));
+const Customize = lazy(() => import("@/components/pages/Customize"));
+const Login = lazy(() => import("@/components/pages/Login"));
+const Signup = lazy(() => import("@/components/pages/Signup"));
+const Callback = lazy(() => import("@/components/pages/Callback"));
+const ErrorPage = lazy(() => import("@/components/pages/ErrorPage"));
+const ResetPassword = lazy(() => import("@/components/pages/ResetPassword"));
+const PromptPassword = lazy(() => import("@/components/pages/PromptPassword"));
 
 const LoadingSpinner = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -106,11 +108,15 @@ const mainRoutes = [
     path: "tasks",
     element: <Tasks />,
     title: "Tasks"
-  }),
-  createRoute({
-    path: "*",
-    element: <NotFound />
-  })
+}),
+{
+path: "/customize",
+element: <Customize />
+},
+createRoute({
+path: "*",
+element: <NotFound />
+})
 ]
 
 const routes = [
