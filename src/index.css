@@ -35,11 +35,11 @@
     @apply transform -translate-y-0.5 shadow-lg;
   }
   
-  .stage-lead { @apply border-l-4 border-l-blue-500; }
-  .stage-qualified { @apply border-l-4 border-l-indigo-500; }
-  .stage-proposal { @apply border-l-4 border-l-purple-500; }
-  .stage-negotiation { @apply border-l-4 border-l-amber-500; }
-  .stage-closed { @apply border-l-4 border-l-green-500; }
+.stage-lead { @apply border-l-4 border-l-green-400; }
+  .stage-qualified { @apply border-l-4 border-l-green-500; }
+  .stage-proposal { @apply border-l-4 border-l-green-600; }
+  .stage-negotiation { @apply border-l-4 border-l-emerald-500; }
+  .stage-closed { @apply border-l-4 border-l-green-700; }
 }
 
 .Toastify__toast-container {
