@@ -6,6 +6,8 @@ import { cn } from "@/utils/cn";
 const SearchBar = ({ 
   placeholder = "Search...",
   onSearch,
+  value,
+  onChange,
   className,
   showResults = false,
   results = [],
@@ -14,13 +16,23 @@ const SearchBar = ({
   const [query, setQuery] = useState("")
   const [isFocused, setIsFocused] = useState(false)
   
-const handleChange = (e) => {
-    const value = e.target.value
-    setQuery(value)
-    onSearch?.(value)
+  // Use controlled value if provided, otherwise use internal state
+  const inputValue = value !== undefined ? value : query
+  
+  const handleChange = (e) => {
+    const inputValue = e.target.value
+    
+    // If using controlled pattern (value + onChange)
+    if (value !== undefined && onChange) {
+      onChange(inputValue)
+    } else {
+      // If using callback pattern (onSearch)
+      setQuery(inputValue)
+      onSearch?.(inputValue)
+    }
   }
   
-  const showDropdown = showResults && isFocused && query.length > 0 && results.length > 0
+const showDropdown = showResults && isFocused && inputValue.length > 0 && results.length > 0
   
   return (
     <div className={cn("relative", className)}>
@@ -30,7 +42,7 @@ const handleChange = (e) => {
           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" 
         />
         <Input
-          value={query}
+value={inputValue}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
@@ -46,7 +58,11 @@ const handleChange = (e) => {
               key={result.id || index}
               onClick={() => {
                 onResultClick?.(result)
-                setQuery("")
+if (value !== undefined && onChange) {
+                  onChange("")
+                } else {
+                  setQuery("")
+                }
                 setIsFocused(false)
               }}
               className="w-full px-4 py-3 text-left hover:bg-blue-50/80 flex items-center space-x-3 transition-colors"
