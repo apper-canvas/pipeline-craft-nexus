@@ -91,14 +91,16 @@ export default function Root() {
     }
   };
 
-  const handleAuthSuccess = (user) => {
-    if (user) {
-      dispatch(setUser(user));
-      handleNavigation();
-    } else {
-      dispatch(clearUser());
-    }
-    handleAuthComplete();
+const handleAuthSuccess = (user) => {
+    startTransition(() => {
+      if (user) {
+        dispatch(setUser(user));
+        handleNavigation();
+      } else {
+        dispatch(clearUser());
+      }
+      handleAuthComplete();
+    });
   };
 
   const handleAuthError = (error) => {
