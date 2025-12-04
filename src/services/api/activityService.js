@@ -1,5 +1,5 @@
 import { getApperClient } from "@/services/apperClient";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 export const activityService = {
   async getAll() {
     try {
@@ -97,7 +97,7 @@ export const activityService = {
 
       const response = await apperClient.createRecord('activity_c', params)
 if (!response.success) {
-        console.error('Activity creation failed:', response.message);
+console.error('Activity creation failed:', response.message);
         toast.error(response.message);
         return null;
       }
@@ -109,7 +109,7 @@ if (!response.success) {
         
         if (failed.length > 0) {
           console.error(`Failed to create ${failed.length} activity records:`, failed);
-          failed.forEach(record => {
+failed.forEach(record => {
             if (record.message) toast.error(record.message);
           });
         }
