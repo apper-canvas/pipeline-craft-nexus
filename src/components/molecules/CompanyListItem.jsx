@@ -28,7 +28,7 @@ const CompanyListItem = ({ company, onEdit, onDelete }) => {
   }
 
   return (
-    <div className="p-6 hover:bg-gray-50/50 transition-colors">
+<div className="p-6 hover:bg-gray-50/50 transition-colors">
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 mb-3">
@@ -53,6 +53,22 @@ const CompanyListItem = ({ company, onEdit, onDelete }) => {
                   <div className="flex items-center gap-1">
                     <ApperIcon name="Phone" size={14} />
                     <span>{company.phone_c}</span>
+                  </div>
+                )}
+              </div>
+              
+              {/* Additional Company Info */}
+              <div className="flex items-center gap-4 text-sm text-gray-500 mt-2">
+                {company.total_employee_count_c && (
+                  <div className="flex items-center gap-1">
+                    <ApperIcon name="Users" size={14} />
+                    <span>{company.total_employee_count_c} employees</span>
+                  </div>
+                )}
+                {company.annual_revenue_c && (
+                  <div className="flex items-center gap-1">
+                    <ApperIcon name="DollarSign" size={14} />
+                    <span>${parseFloat(company.annual_revenue_c).toLocaleString()}</span>
                   </div>
                 )}
               </div>

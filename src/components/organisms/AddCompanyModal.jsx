@@ -5,7 +5,7 @@ import Button from '@/components/atoms/Button'
 import ApperIcon from '@/components/ApperIcon'
 
 const AddCompanyModal = ({ isOpen, onClose, onSubmit, company = null, title = 'Add New Company' }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     Name: '',
     Tags: '',
     address_c: '',
@@ -14,7 +14,9 @@ const AddCompanyModal = ({ isOpen, onClose, onSubmit, company = null, title = 'A
     zip_c: '',
     phone_c: '',
     website_c: '',
-    industry_c: ''
+    industry_c: '',
+    total_employee_count_c: '',
+    annual_revenue_c: ''
   })
   
   const [loading, setLoading] = useState(false)
@@ -22,7 +24,7 @@ const AddCompanyModal = ({ isOpen, onClose, onSubmit, company = null, title = 'A
 
   useEffect(() => {
     if (company) {
-      setFormData({
+setFormData({
         Name: company.Name || '',
         Tags: company.Tags || '',
         address_c: company.address_c || '',
@@ -31,7 +33,9 @@ const AddCompanyModal = ({ isOpen, onClose, onSubmit, company = null, title = 'A
         zip_c: company.zip_c || '',
         phone_c: company.phone_c || '',
         website_c: company.website_c || '',
-        industry_c: company.industry_c || ''
+        industry_c: company.industry_c || '',
+        total_employee_count_c: company.total_employee_count_c || '',
+        annual_revenue_c: company.annual_revenue_c || ''
       })
     } else {
       setFormData({
@@ -131,8 +135,7 @@ const AddCompanyModal = ({ isOpen, onClose, onSubmit, company = null, title = 'A
               placeholder="e.g., Technology, Healthcare"
             />
           </div>
-
-          {/* Phone */}
+{/* Phone */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Phone
@@ -142,6 +145,35 @@ const AddCompanyModal = ({ isOpen, onClose, onSubmit, company = null, title = 'A
               onChange={(e) => handleInputChange('phone_c', e.target.value)}
               placeholder="(555) 123-4567"
               type="tel"
+            />
+          </div>
+
+          {/* Total Employee Count */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Total Employee Count
+            </label>
+            <Input
+              value={formData.total_employee_count_c}
+              onChange={(e) => handleInputChange('total_employee_count_c', e.target.value)}
+              placeholder="50"
+              type="number"
+              min="0"
+            />
+          </div>
+
+          {/* Annual Revenue */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Annual Revenue ($)
+            </label>
+            <Input
+              value={formData.annual_revenue_c}
+              onChange={(e) => handleInputChange('annual_revenue_c', e.target.value)}
+              placeholder="1000000.00"
+              type="number"
+              step="0.01"
+              min="0"
             />
           </div>
 
