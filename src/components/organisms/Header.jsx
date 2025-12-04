@@ -33,12 +33,12 @@ return (
             
             {/* Logo - only show on mobile, hidden on desktop since it's in sidebar */}
             <div className="lg:hidden">
-              <Link 
+<Link 
                 to="/" 
                 className="flex items-center space-x-2 text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
               >
                 <ApperIcon name="TrendingUp" className="w-6 h-6 text-blue-600" />
-                <span>Pipeline</span>
+                <span>PipeLine Pro</span>
               </Link>
             </div>
             
