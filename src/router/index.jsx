@@ -133,7 +133,7 @@ const routes = [
       {
         path: "",
         element: <Layout />,
-        children: [...mainRoutes]
+        children: mainRoutes
       }
     ]
   }
