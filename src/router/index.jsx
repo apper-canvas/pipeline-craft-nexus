@@ -8,6 +8,7 @@ const Pipeline = lazy(() => import("@/components/pages/Pipeline"))
 const Contacts = lazy(() => import("@/components/pages/Contacts"))
 const Companies = lazy(() => import("@/components/pages/Companies"))
 const Tasks = lazy(() => import("@/components/pages/Tasks"))
+const Leads = lazy(() => import("@/components/pages/Leads"))
 const Quotes = lazy(() => import("@/components/pages/Quotes"))
 const SalesOrders = lazy(() => import("@/components/pages/SalesOrders"))
 const Deals = lazy(() => import("@/components/pages/Deals"))
@@ -75,6 +76,11 @@ const mainRoutes = [
   createRoute({
     path: "contacts",
     element: <Contacts />
+}),
+  createRoute({
+    path: "leads",
+    element: <Leads />,
+    title: "Leads"
   }),
   createRoute({
     path: "companies",

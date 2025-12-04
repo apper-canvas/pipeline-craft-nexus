@@ -6,7 +6,8 @@ import { cn } from "@/utils/cn"
 const navItems = [
   { path: "/", label: "Pipeline", icon: "BarChart3" },
   { path: "/tasks", label: "Tasks", icon: "CheckSquare" },
-  { path: "/contacts", label: "Contacts", icon: "Users" },
+{ path: "/contacts", label: "Contacts", icon: "Users" },
+  { path: "/leads", label: "Leads", icon: "Target" },
   { path: "/companies", label: "Companies", icon: "Building2" },
 { path: "/quotes", label: "Quotes", icon: "FileText" },
   { path: "/deals", label: "Deals", icon: "Handshake" },
